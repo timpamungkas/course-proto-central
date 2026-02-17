@@ -39,6 +39,11 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+        with:
+          version: "4.33.4"
+
       - name: Generate protobuf code
         run: buf generate
         env:
