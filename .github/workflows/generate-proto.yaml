@@ -12,6 +12,7 @@ on:
 
 jobs:
   generate:
+    name: Generate Protobuf & Publish Packages
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -20,8 +21,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Set up Java 21
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
@@ -31,12 +34,6 @@ jobs:
           server-username: GITHUB_ACTOR
           server-password: GITHUB_TOKEN
 
-      - name: Set up Go 1.25
-        uses: actions/setup-go@v5
-        with:
-          go-version: '1.25'
-          cache: false
-
       - name: Install Buf CLI
         uses: bufbuild/buf-setup-action@v1
         with:
@@ -44,15 +41,22 @@ jobs:
 
       - name: Generate protobuf code
         run: buf generate
+        env:
+          BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
 
-      - name: Set version from commit SHA
+      - name: Get commit SHA for version
         id: version
-        run: echo "VERSION=${{ github.sha }}" >> $GITHUB_OUTPUT
+        run: |
+          COMMIT_SHA=${{ github.sha }}
+          SHORT_SHA=${COMMIT_SHA:0:7}
+          echo "COMMIT_SHA=$COMMIT_SHA" >> $GITHUB_OUTPUT
+          echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_OUTPUT
+          echo "Version: $SHORT_SHA (full: $COMMIT_SHA)"
 
-      - name: Package Java code as JAR
+      - name: Package Java code as JAR (version ${{ steps.version.outputs.SHORT_SHA }})
         if: github.event_name == 'push'
         run: |
-          mvn versions:set -DnewVersion=${{ github.sha }}
+          mvn versions:set -DnewVersion=${{ steps.version.outputs.COMMIT_SHA }}
           mvn clean package -DskipTests
 
       - name: Publish JAR to GitHub Packages
@@ -61,16 +65,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload Java artifacts
+      - name: Upload Java JAR artifact
         if: github.event_name == 'push'
         uses: actions/upload-artifact@v4
         with:
-          name: java-protobuf-${{ github.sha }}
+          name: java-protobuf-${{ steps.version.outputs.SHORT_SHA }}
           path: target/*.jar
-
-      - name: Upload Go artifacts
-        if: github.event_name == 'push'
-        uses: actions/upload-artifact@v4
-        with:
-          name: go-protobuf-${{ github.sha }}
-          path: protogen/go/
+          if-no-files-found: error

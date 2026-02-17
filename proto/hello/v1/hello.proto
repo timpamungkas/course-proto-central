@@ -2,9 +2,6 @@ syntax = "proto3";
 
 package hello.v1;
 
-// replace this with your own github username and repo
-// github.com/<username>/<repo>/protogen/go/...
-option go_package = "github.com/timpamungkas/course-central-proto/protogen/go/hello";
 option java_package = "com.course.central.proto.hello";
 
 message SayHelloRequest {

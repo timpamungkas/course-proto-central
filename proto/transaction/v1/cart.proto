@@ -2,9 +2,6 @@ syntax = "proto3";
 
 package transaction.v1;
 
-// replace this with your own github username and repo
-// github.com/<username>/<repo>/protogen/go/...
-option go_package = "github.com/timpamungkas/course-central-proto/protogen/go/transaction/v1";
 option java_package = "com.course.central.proto.transaction";
 
 message CartItem {
