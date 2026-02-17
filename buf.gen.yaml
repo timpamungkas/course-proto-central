@@ -1,6 +1,6 @@
 version: v2
 plugins:
-  - remote: buf.build/protocolbuffers/java@v4.33.4
+  - remote: buf.build/protocolbuffers/java
     out: protogen/java
   - remote: buf.build/grpc/java
     out: protogen/java
