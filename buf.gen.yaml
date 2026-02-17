@@ -1,0 +1,21 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: github.com/timpamungkas/course-proto-central/protogen
+plugins:
+  - remote: buf.build/protocolbuffers/go
+    out: protogen/go
+    opt: paths=source_relative
+  - remote: buf.build/connectrpc/gosimple
+    out: protogen/go
+    opt:
+      - paths=source_relative
+      - simple
+  - remote: buf.build/protocolbuffers/java
+    out: protogen/java
+  - remote: buf.build/grpc/java
+    out: protogen/java
+inputs:
+  - directory: proto

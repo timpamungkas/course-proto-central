@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package payment.v1;
+
+import "transaction/v1/cart.proto";
+
+// replace this with your own github username and repo
+// github.com/<username>/<repo>/protogen/go/...
+option go_package = "github.com/timpamungkas/course-central-proto/protogen/go/payment";
+option java_package = "com.course.central.proto.payment";
+
+message PayRequest {
+  transaction.v1.Cart cart         = 1;
+  string              currency     = 2;
+  uint32              total_amount = 3 [json_name = "total_amount"];
+  uint32              tax          = 4;
+  string              promo_code   = 16 [json_name = "promo_code"];
+}
+
+message PayResponse {
+  string payment_uuid = 1 [json_name = "payment_uuid"];
+  bool   confirmed    = 2;
+}
+
+service PaymentService {
+  rpc Pay(PayRequest) returns (stream PayResponse) {}
+}
