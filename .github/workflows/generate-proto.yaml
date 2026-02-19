@@ -64,11 +64,3 @@ jobs:
         run: mvn deploy -DskipTests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload Java JAR artifact
-        if: github.event_name == 'push'
-        uses: actions/upload-artifact@v4
-        with:
-          name: java-protobuf-${{ steps.version.outputs.SHORT_SHA }}
-          path: target/*.jar
-          if-no-files-found: error
