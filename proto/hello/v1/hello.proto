@@ -17,7 +17,7 @@ service HelloService {
   rpc SayHelloUnaryTwo(SayHelloRequest) returns (SayHelloResponse) {}
 
   rpc SayHelloServerStreamOne(SayHelloRequest) returns (stream SayHelloResponse) {}
-  rpc SayHelloServerStreamTwo(SayHelloRequest) returns (stream SayHelloResponse)
+  rpc SayHelloServerStreamTwo(SayHelloRequest) returns (stream SayHelloResponse) {}
 
   rpc SayHelloClientStreamOne(stream SayHelloRequest) returns (SayHelloResponse) {}
   rpc SayHelloClientStreamTwo(stream SayHelloRequest) returns (SayHelloResponse) {}
