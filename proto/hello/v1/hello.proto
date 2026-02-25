@@ -13,5 +13,15 @@ message SayHelloResponse {
 }
 
 service HelloService {
-  rpc SayHello(SayHelloRequest) returns (SayHelloResponse) {}
+  rpc SayHelloUnaryOne(SayHelloRequest) returns (SayHelloResponse) {}
+  rpc SayHelloUnaryTwo(SayHelloRequest) returns (SayHelloResponse) {}
+
+  rpc SayHelloServerStreamOne(SayHelloRequest) returns (stream SayHelloResponse) {}
+  rpc SayHelloServerStreamTwo(SayHelloRequest) returns (stream SayHelloResponse) {}
+
+  rpc SayHelloClientStreamOne(stream SayHelloRequest) returns (SayHelloResponse) {}
+  rpc SayHelloClientStreamTwo(stream SayHelloRequest) returns (SayHelloResponse) {}
+
+  rpc SayHelloBidirectionalStreamOne(stream SayHelloRequest) returns (stream SayHelloResponse) {}
+  rpc SayHelloBidirectionalStreamTwo(stream SayHelloRequest) returns (stream SayHelloResponse) {}
 }
