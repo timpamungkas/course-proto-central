@@ -39,6 +39,11 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Update buf dependencies
+        run: buf dep update
+        env:
+          BUF_TOKEN: ${{ secrets.BUF_TOKEN }}
+
       - name: Generate protobuf code
         run: buf generate
         env:
