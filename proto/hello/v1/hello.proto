@@ -21,7 +21,8 @@ service HelloService {
       body: "*"
     };
   }
-  
+
   rpc SayManyHellos(SayHelloRequest) returns (stream SayHelloResponse) {}
   rpc SayHelloToEveryone(stream SayHelloRequest) returns (SayHelloResponse) {}
+  rpc SayHelloContinuous(stream HelloRequest) returns (stream HelloResponse) {}
 }
