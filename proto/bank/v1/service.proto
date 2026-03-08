@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package bank.v1;
 
-import "proto/google/type/date.proto";
+import "bank/v1/account_message.proto";
 
 option java_package = "com.course.central.proto.bank";
 
